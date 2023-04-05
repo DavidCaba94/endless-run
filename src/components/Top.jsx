@@ -1,7 +1,8 @@
-import React from "react"
+import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import top from '../../data/top.js'
+import { Link } from 'react-router-native'
 
 const Top = () => {
     return (
@@ -26,6 +27,9 @@ const Top = () => {
                     <Text>345</Text>
                 </View>
             </View>
+            <Link to={'/'}>
+                <Text>Home</Text>
+            </Link>
         </View>
     )
 }
