@@ -9,9 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "eas-cli": "^3.9.0",
     "expo": "~48.0.10",
-    "expo-crypto": "~12.2.1",
-    "expo-random": "~13.1.1",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",

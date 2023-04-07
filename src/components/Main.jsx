@@ -21,12 +21,12 @@ const Main = () => {
 const styles =  StyleSheet.create({
     container: {
         width: '100%',
-        height: '100vh',
-        marginTop: Constants.statusBarHeight,
+        height: '100%',
         textAlign: 'center',
         backgroundColor: '#c2c2c2',
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 

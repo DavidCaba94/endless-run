@@ -19,7 +19,6 @@ const Game = () => {
 const styles =  StyleSheet.create({
     container: {
         width: '100%',
-        marginTop: Constants.statusBarHeight,
         padding: 10
     }
 })

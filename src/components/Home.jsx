@@ -20,8 +20,10 @@ const Home = () => {
 const styles =  StyleSheet.create({
     container: {
         width: '100%',
-        marginTop: Constants.statusBarHeight,
-        padding: 10
+        padding: 10,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     button: {
         width: 150,
@@ -32,12 +34,14 @@ const styles =  StyleSheet.create({
         borderColor: '#ffffff',
         textAlign: 'center',
         margin: 'auto',
-        marginTop: '10px'
+        marginTop: 10
     },
     textButton: {
+        width: '100%',
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: '#ffffff',
+        textAlign: 'center'
     },
     image: {
         width: 150,
