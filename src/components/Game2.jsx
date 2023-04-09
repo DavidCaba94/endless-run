@@ -2,8 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { GameEngine } from 'react-native-game-engine'
-import entities from '../entities/flappybird'
-import Physics from '../utils/physics'
+import entities from '../entities/flappy-bird'
+import Physics from '../utils/flappy-physics'
 import { Link } from 'react-router-native'
 
 const Game2 = () => {
@@ -14,8 +14,8 @@ const Game2 = () => {
         setRunning(false)
     }, [])
     return (
-        <View style={{ flex: 1 }}>
-            <Text style={{ textAlign: 'center', fontSize: 40, fontWeight: 'bold', margin: 20 }}>{currentPoints}</Text>
+        <View style={styles.container}>
+            <Text style={styles.currentPoints}>{currentPoints}</Text>
             <GameEngine
                 ref={(ref) => { setGameEngine(ref) }}
                 systems={[Physics]}
@@ -32,14 +32,14 @@ const Game2 = () => {
                     break;
                 }
                 }}
-                style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                style={styles.gameEngine}
                 >
                 <StatusBar style="auto" hidden={true} />
 
             </GameEngine>
 
             {!running ?
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.button}
                     onPress={() => {
                     setCurrentPoints(0)
@@ -67,8 +67,12 @@ const Game2 = () => {
 
 const styles =  StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%'
+        flex: 1
+    },
+    buttonsContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     button: {
         width: 170,
@@ -88,12 +92,18 @@ const styles =  StyleSheet.create({
         color: '#ffffff',
         textAlign: 'center'
     },
-    image: {
+    gameEngine: {
         position: 'absolute',
-        width: 50,
-        height: 50,
-        marginLeft: 200,
-        marginTop: 500
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    },
+    currentPoints: {
+        textAlign: 'center',
+        fontSize: 40,
+        fontWeight: 'bold',
+        margin: 20
     }
 })
 

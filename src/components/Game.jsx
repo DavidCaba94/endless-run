@@ -1,7 +1,10 @@
-import React, { useRef, useEffect } from 'react';
-import { Text, View, StyleSheet, Dimensions, PixelRatio, Image } from 'react-native'
+import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { GameEngine } from 'react-native-game-engine'
+import entities from '../entities/endless-run'
+import Physics from '../utils/endless-physics'
 import { Link } from 'react-router-native'
-import Canvas from 'react-native-canvas';
 
 let intervalId = [null, null, null];
 

@@ -1,10 +1,10 @@
 import Matter from "matter-js"
-import Bird from "../enviroment/Bird";
-import Floor from "../enviroment/Floor";
-import Obstacle from "../enviroment/Obstacle";
+import Bird from "../enviroment/flappy-bird/Bird";
+import Floor from "../enviroment/flappy-bird/Floor";
+import Obstacle from "../enviroment/flappy-bird/Obstacle";
 
 import { Dimensions } from 'react-native'
-import { getPipeSizePosPair } from "../utils/random";
+import { getPipeSizePosPair } from "../utils/random-columns";
 
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
