@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, View, StyleSheet, Image } from 'react-native'
-import Constants from 'expo-constants'
 import { Link } from 'react-router-native'
 
 const Home = () => {
@@ -8,7 +7,10 @@ const Home = () => {
         <View style={styles.container}>
             <Image source={require('../../assets/favicon.png')} style={styles.image}/>
             <Link to={'/game'} style={styles.button}>
-                <Text style={styles.textButton}>PLAY</Text>
+                <Text style={styles.textButton}>ENDLESS RUN</Text>
+            </Link>
+            <Link to={'/game2'} style={styles.button}>
+                <Text style={styles.textButton}>FLAPPY BIRD</Text>
             </Link>
             <Link to={'/top'} style={styles.button}>
                 <Text style={styles.textButton}>TOP</Text>
@@ -26,7 +28,7 @@ const styles =  StyleSheet.create({
         alignItems: 'center'
     },
     button: {
-        width: 150,
+        width: 170,
         backgroundColor: '#0378ff',
         padding: 10,
         borderRadius: 5,

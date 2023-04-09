@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Dimensions, PixelRatio, Image } from 'react-nat
 import { Link } from 'react-router-native'
 import Canvas from 'react-native-canvas';
 
-let intervalId = [];
+let intervalId = [null, null, null];
 
 const Game = () => {
     const ref = useRef(null);
@@ -30,12 +30,14 @@ const Game = () => {
     const draw = (ctx, position) => {
         squares.forEach((sq, index) => {
             intervalId[index] = setInterval(function(){
-                position++;
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.beginPath();
                 ctx.fillStyle = sq.color;
                 ctx.fillRect(sq.x, sq.y + position, 50, 50);
+                ctx.closePath();
+                position++;
                 console.log(position);
-            }, 100);
+            }, 10);
         });
     };
     

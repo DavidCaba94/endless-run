@@ -5,6 +5,7 @@ import Top from './Top.jsx'
 import Home from './Home.jsx'
 import { Route, Routes } from 'react-router-native'
 import Game from './Game.jsx'
+import Game2 from './Game2.jsx'
 
 const Main = () => {
     return (
@@ -13,6 +14,7 @@ const Main = () => {
                 <Route path='/' element={<Home />} />
                 <Route path='/top' element={<Top />} />
                 <Route path='/game' element={<Game />} />
+                <Route path='/game2' element={<Game2 />} />
             </Routes>
         </View>
     )
