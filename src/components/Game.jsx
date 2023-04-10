@@ -18,7 +18,7 @@ const Game = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.currentPoints}>{currentPoints}</Text>
+            <Text style={styles.currentPoints}>{currentPoints}m</Text>
             <GameEngine
                 ref={(ref) => { setGameEngine(ref) }}
                 systems={[Physics]}
