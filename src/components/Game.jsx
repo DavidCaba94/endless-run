@@ -1,107 +1,149 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, Dimensions } from 'react-native';
 import { GameEngine } from 'react-native-game-engine'
 import entities from '../entities/endless-run'
-import Physics from '../utils/endless-physics'
+import Physics, { moveRight, moveLeft } from '../utils/endless-physics'
 import { Link } from 'react-router-native'
 
-let intervalId = [null, null, null];
+const windowWidth = Dimensions.get('window').width
 
 const Game = () => {
-    const ref = useRef(null);
-    const position = 0;
-    const squares = [
-        { x: 0, y: 0, color: 'white'},
-        { x: 100, y: 0, color: 'red'},
-        { x: 200, y: 0, color: 'blue'}
-    ];
-
+    const [running, setRunning] = useState(false)
+    const [gameEngine, setGameEngine] = useState(null)
+    const [currentPoints, setCurrentPoints] = useState(0)
     useEffect(() => {
-        if (ref.current) {
-            const ctx = ref.current.getContext('2d');
-            const width = Dimensions.get('window').width;
-            const height = Dimensions.get('window').height;
-            ref.current.width = PixelRatio.getPixelSizeForLayoutSize(width);
-            ref.current.height = PixelRatio.getPixelSizeForLayoutSize(height);
-            if (ctx) {
-                draw(ctx, position);
-            }
-        }
-    }, [ref]);
+        setRunning(false)
+    }, [])
 
-    const draw = (ctx, position) => {
-        squares.forEach((sq, index) => {
-            intervalId[index] = setInterval(function(){
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.beginPath();
-                ctx.fillStyle = sq.color;
-                ctx.fillRect(sq.x, sq.y + position, 50, 50);
-                ctx.closePath();
-                position++;
-                console.log(position);
-            }, 10);
-        });
-    };
-    
-    const stopInterval = () => {
-        intervalId.forEach(element => {
-            clearInterval(element);
-        });
-    }
-    
     return (
         <View style={styles.container}>
-            <Canvas ref={ref} style={styles.canvas} />
-            <Image source={require('../../assets/favicon.png')} style={styles.image}/>
-            <View style={styles.bottomButtonsContainer}>
-                <Link to={'/'} style={styles.bottomButton} onPress={() => {stopInterval()}}>
-                    <Text style={styles.textButton}>Home</Text>
-                </Link>
-                <Link to={'/top'} style={styles.bottomButton}>
-                    <Text style={styles.textButton}>Top</Text>
-                </Link>
+            <Text style={styles.currentPoints}>{currentPoints}</Text>
+            <GameEngine
+                ref={(ref) => { setGameEngine(ref) }}
+                systems={[Physics]}
+                entities={entities()}
+                running={running}
+                onEvent={(e) => {
+                    switch (e.type) {
+                        case 'game_over':
+                        setRunning(false)
+                        gameEngine.stop()
+                        break;
+                        case 'new_point':
+                        setCurrentPoints(currentPoints + 1)
+                        break;
+                        case 'move_right':
+                        moveRight()
+                        return;
+                        case 'move_left':
+                        moveLeft()
+                        return;
+                    }
+                }}
+                style={styles.gameEngine}
+                >
+                <StatusBar style="auto" hidden={true} />
+
+            </GameEngine>
+            <View style={styles.controlContainer}>
+                <TouchableOpacity onPress={() => gameEngine.dispatch({ type: 'move_left' })}>
+                    <View style={styles.controlBtnLeft} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => gameEngine.dispatch({ type: 'move_right' })}>
+                    <View style={styles.controlBtnRight} />
+                </TouchableOpacity>
             </View>
+
+            {!running ?
+            <View style={styles.buttonsContainer}>
+                <TouchableOpacity style={styles.button}
+                    onPress={() => {
+                    setCurrentPoints(0)
+                    setRunning(true)
+                    gameEngine.swap(entities())
+                    }}>
+                    <Text style={styles.textButton}>
+                    START GAME
+                    </Text>
+                </TouchableOpacity>
+                <Link to={'/'} style={styles.button}>
+                    <Text style={styles.textButton}>
+                    HOME
+                    </Text>
+                </Link>
+                <Link to={'/top'} style={styles.button}>
+                    <Text style={styles.textButton}>
+                    TOP
+                    </Text>
+                </Link>
+            </View> : null}
         </View>
     )
 }
 
 const styles =  StyleSheet.create({
     container: {
+        flex: 1,
         width: '100%',
         height: '100%'
     },
-    canvas: { 
-        width: '100%',
-        height: '92%',
-        backgroundColor: 'green'
-    },
-    bottomButtonsContainer: {
-        width: '100%',
-        height: '8%',
+    buttonsContainer: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center'
     },
-    bottomButton: {
-        width: 100,
+    button: {
+        width: 170,
+        backgroundColor: '#0378ff',
         padding: 10,
         borderRadius: 5,
-        backgroundColor: '#0000ff',
-        marginLeft: 5
+        borderWidth: 4,
+        borderColor: '#ffffff',
+        textAlign: 'center',
+        margin: 'auto',
+        marginTop: 10
     },
     textButton: {
         width: '100%',
-        textAlign: 'center',
-        color: '#ffffff'
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#ffffff',
+        textAlign: 'center'
     },
-    image: {
+    gameEngine: {
         position: 'absolute',
-        width: 50,
-        height: 50,
-        marginLeft: 200,
-        marginTop: 500
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    },
+    currentPoints: {
+        textAlign: 'center',
+        fontSize: 40,
+        fontWeight: 'bold',
+        margin: 20
+    },
+    controlBtnLeft: {
+        backgroundColor: "#ffff0000",
+        width: windowWidth / 2,
+        height: '100%',
+    },
+    controlBtnRight: {
+        backgroundColor: "#ff00ff00",
+        width: windowWidth / 2,
+        height: '100%',
+    },
+    controlContainer: {
+        position: 'absolute',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%'
     }
 })
 
