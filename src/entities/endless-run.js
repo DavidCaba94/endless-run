@@ -2,6 +2,7 @@ import Matter from "matter-js"
 import Runner from "../enviroment/endless-run/Runner";
 import PowerUp from "../enviroment/endless-run/PowerUp";
 import Obstacle from "../enviroment/endless-run/Obstacle";
+import ScreenEnd from "../enviroment/endless-run/ScreenEnd";
 import { getPowerUpPosition } from "../utils/random-powerups";
 import { getObstaclePosition } from "../utils/random-obstacle";
 
@@ -26,6 +27,7 @@ export default restart => {
 
         Runner: Runner(world, 'green', { x: windowWidth / 2, y: (windowHeight / 2) + 100 }, { height: 40, width: 40 }),
         PowerUp: PowerUp(world, 'cyan', { x: powerupPos.pos.x, y: powerupPos.pos.y }, { height: 40, width: 40 }),
-        Obstacle: Obstacle(world, 'red', { x: obstaclePos.pos.x, y: obstaclePos.pos.y }, { height: 40, width: 40 })
+        Obstacle: Obstacle(world, 'red', { x: obstaclePos.pos.x, y: obstaclePos.pos.y }, { height: 40, width: 40 }),
+        ScreenEnd: ScreenEnd(world, 'black', { x: windowWidth / 2, y: windowHeight - 40 }, { height: 80, width: windowWidth }),
     }
 }

@@ -22,14 +22,12 @@ const Physics = (entities, { touches, time, events, dispatch }) => {
 
     if (entities['PowerUp'].body.bounds.max.y >= windowHeight && itsTimeToPower()) {
         const powerupPos = getPowerUpPosition(0);
-        console.log(powerupPos)
 
         Matter.Body.setPosition(entities['PowerUp'].body, { x: powerupPos.pos.x, y: powerupPos.pos.y })
     }
 
     if (entities['Obstacle'].body.bounds.max.y >= windowHeight && itsTimeToObstacle()) {
         const obstaclePos = getObstaclePosition(0);
-        console.log(obstaclePos)
 
         Matter.Body.setPosition(entities['Obstacle'].body, { x: obstaclePos.pos.x, y: obstaclePos.pos.y })
     }
@@ -38,7 +36,13 @@ const Physics = (entities, { touches, time, events, dispatch }) => {
     Matter.Body.translate(entities['Obstacle'].body, { x: 0, y: +5 })
 
     Matter.Events.on(engine, 'collisionStart', (event) => {
-        dispatch({ type: 'game_over' })
+        if (event.pairs[0].bodyA.label === 'Runner' && event.pairs[0].bodyB.label === 'Obstacle') {
+            // obstrucción
+        } else if (event.pairs[0].bodyA.label === 'Runner' && event.pairs[0].bodyB.label === 'PowerUp') {
+            // powerup
+        } else if (event.pairs[0].bodyA.label === 'Runner' && event.pairs[0].bodyB.label === 'ScreenEnd') {
+            dispatch({ type: 'game_over' })
+        }
     })
 
     return entities;
